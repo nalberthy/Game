@@ -174,8 +174,8 @@ mainScene.preload=function() {
 
         text.setText([
             'Angulo:'+valor,
-            'Constante elástica:'+valorK.value,
-            'Deformação da mola:'+valorX.value,
+            'Constante elástica (K):'+valorK.value,
+            'Deformação da mola (X):'+valorX.value,
             'Força:'+force,
 
         ]);
