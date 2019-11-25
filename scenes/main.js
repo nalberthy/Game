@@ -33,7 +33,7 @@ mainScene.preload=function() {
         this.load.image('ground', 'assets/platform.png');
         // this.load.image('grass', 'assets/grass.png'); 
         this.load.image('platform', 'assets/plataforma.png'); 
-        this.load.image('cano', 'assets/cano1.png');
+        this.load.image('cano', 'assets/cano.png');
         this.load.image('reiniciar', 'assets/reiniciar.png');
     }
 
