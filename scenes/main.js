@@ -35,6 +35,7 @@ mainScene.preload=function() {
         this.load.image('platform', 'assets/plataforma.png'); 
         this.load.image('cano', 'assets/cano.png');
         this.load.image('reiniciar', 'assets/reiniciar.png');
+        this.load.image('alvo','assets/alvo.png');
     }
 
     mainScene.create=function() {  
@@ -56,12 +57,17 @@ mainScene.preload=function() {
         DefinirAngulo = Phaser.Geom.Line.SetToAngle;
         velocidadeRotacao = this.physics.velocityFromRotation;
 // ----------------------------------------------------------------------------------------------------------------------------------------------
-      
-        bala = this.physics.add.sprite(cannon.x, cannon.y, 'bala').setScale(2);
+        alvo = this.physics.add.staticGroup();
+        alvo.create(1800, 600, 'alvo').setScale(2).refreshBody();
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+   
         cano = this.add.image(60, 987, 'cano'); 
+        bala = this.physics.add.sprite(cannon.x, cannon.y, 'bala').setScale(2);
+        this.add.image(70, 980, 'cannon');
         bala.setCollideWorldBounds(true);
         this.cameras.main.startFollow(bala);
         this.physics.add.collider(bala, platforms);
+        this.physics.add.collider(bala, alvo);
 //-----------------------------------------------------------------------------------------------------------------------------------------------
         gfx = this.add.graphics() 
         // gfx.setTexture('cano');
