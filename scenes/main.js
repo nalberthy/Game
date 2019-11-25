@@ -16,6 +16,7 @@ var mainScene = new Phaser.Scene('main');
     var iniciar = false;
     // new Phaser.Game(config);
     var reiniciar;
+    
 
 /*https://phaser.io/examples/v3/view/camera/follow-user-controlled-sprite*/
 mainScene.init = function () {
@@ -23,14 +24,13 @@ mainScene.init = function () {
 };
 
 mainScene.preload=function() {
-        console.log('aqui');
         this.load.html('angulo', 'assets/angulo.html');
-        this.load.html('buttonreset', 'assets/buttonreset.html');
+        // this.load.html('buttonreset', 'assets/buttonreset.html');
         this.load.html('forcaElastica', 'assets/forcaElastica.html');
         this.load.image('backdrop', 'assets/back.png')
         this.load.image('cannon', 'assets/cannon3.png'); // canhão base
         this.load.spritesheet('bala', 'assets/bala.png', { frameWidth: 16, frameHeight: 18 }); // 
-        this.load.image('ground', 'assets/platform.png');
+        // this.load.image('ground', 'assets/platform.png');
         // this.load.image('grass', 'assets/grass.png'); 
         this.load.image('platform', 'assets/plataforma.png'); 
         this.load.image('cano', 'assets/cano.png');
@@ -60,9 +60,9 @@ mainScene.preload=function() {
         alvo = this.physics.add.staticGroup();
         alvo.create(1800, 600, 'alvo').setScale(2).refreshBody();
 // ----------------------------------------------------------------------------------------------------------------------------------------------
-   
-        cano = this.add.image(60, 987, 'cano'); 
         bala = this.physics.add.sprite(cannon.x, cannon.y, 'bala').setScale(2);
+        cano = this.add.image(60, 987, 'cano'); 
+        
         this.add.image(70, 980, 'cannon');
         bala.setCollideWorldBounds(true);
         this.cameras.main.startFollow(bala);
@@ -176,8 +176,8 @@ mainScene.preload=function() {
 
     mainScene.update=function() {
 
-   
-
+        var cam = this.cameras.main;
+        console.log(cam.scrollX);
         text.setText([
             'Angulo:'+valor,
             'Constante elástica (K):'+valorK.value,
@@ -200,6 +200,6 @@ mainScene.preload=function() {
             bala.play('fly');
             }, this);
         }
-        console.log(reiniciar.x=bala.x-30);
+        reiniciar.x=cam.scrollX+40;
     }
     
