@@ -10,11 +10,10 @@ var mainScene = new Phaser.Scene('main');
     var bala;
     var gfx;
     var force = 0;
-    var posX=0;
-
 
     var iniciar = false;
     // new Phaser.Game(config);
+    
 
 /*https://phaser.io/examples/v3/view/camera/follow-user-controlled-sprite*/
 mainScene.init = function () {
@@ -46,9 +45,9 @@ mainScene.preload=function() {
         this.add.image(0, 0, 'backdrop').setOrigin(0);
         this.add.image(1920, 0, 'backdrop').setOrigin(0).setFlipX(true);
         platforms.create(960, 1070, 'platform').setScale(2).refreshBody();
-        
+        reiniciar= this.add.image(1890,1060,"reiniciar").setInteractive();
         cannon = this.add.image(70, 1008, 'cannon');
-        
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
         BetweenPoints = Phaser.Math.Angle.BetweenPoints;
         DefinirAngulo = Phaser.Geom.Line.SetToAngle;
@@ -59,8 +58,10 @@ mainScene.preload=function() {
         this.cameras.main.startFollow(bala);
         this.physics.add.collider(bala, platforms);
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-        gfx = this.add.graphics()        // linha do canhão
-        gfx.setDefaultStyles({ lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+        gfx = this.add.graphics() 
+        // gfx.setTexture('cano');
+        gfx.setDefaultStyles({lineStyle: { width: 10, color: 0xffdd00, alpha: 0.5 } });
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
         velocity = new Phaser.Math.Vector2();
         line = new Phaser.Geom.Line();
@@ -71,6 +72,7 @@ mainScene.preload=function() {
         DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
         velocidadeRotacao(angle, force, velocity);
         gfx.clear().strokeLineShape(line);
+        
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     //====================== TESTES DE APLICAÇÃO ====================
         
@@ -83,8 +85,10 @@ mainScene.preload=function() {
         //     bala.enableBody(true, cannon.x, cannon.y, true, true).setVelocity(velocity.x, velocity.y);
         //     bala.play('fly');
         // }, this);
-        var reiniciar= this.add.image(posX,1070,"reiniciar").setInteractive();
-
+        
+        reiniciar.on('pointerdown', function (event) {
+            location.reload();
+        });
         var angulo = this.add.dom(400, 0).createFromCache('angulo');
             angulo.addListener('click');
             angulo.on('click', function (event) {
@@ -147,24 +151,17 @@ mainScene.preload=function() {
                 ease: 'Power3'
             });
 
-            reiniciar.on('pointerdown', function (event) {
-                location.reload();
-            });
+
 
         }
 
-        mainScene.update=function() {
-
-            posX=bala.x;
-
-            console.log("update")
-
+    mainScene.update=function() {
         if (iniciarAng == true){
-            console.log(force);
             angle = Phaser.Math.DegToRad(-valor); 
             DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
             velocidadeRotacao(angle, force, velocity);
             gfx.clear().strokeLineShape(line);
+            
         }
         if (iniciar== true){
             this.input.on('pointerup', function () {
@@ -172,6 +169,5 @@ mainScene.preload=function() {
             bala.play('fly');
             }, this);
         }
-
     }
     
