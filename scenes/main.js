@@ -11,10 +11,11 @@ var mainScene = new Phaser.Scene('main');
     var gfx;
     var force = 0;
     var text;
-
+    var valorK = 0;
+    var valorX = 0;
     var iniciar = false;
     // new Phaser.Game(config);
-    
+    var reiniciar;
 
 /*https://phaser.io/examples/v3/view/camera/follow-user-controlled-sprite*/
 mainScene.init = function () {
@@ -46,16 +47,18 @@ mainScene.preload=function() {
         this.add.image(0, 0, 'backdrop').setOrigin(0);
         this.add.image(1920, 0, 'backdrop').setOrigin(0).setFlipX(true);
         platforms.create(60, 1050, 'platform').setScale(2).refreshBody();
-        reiniciar= this.add.image(70,400,"reiniciar").setInteractive();
-        cano = this.add.image(60, 980   , 'cano');
-        cannon = this.add.image(70, 990, 'cannon');
+        reiniciar= this.add.image(70,350,"reiniciar").setInteractive();
+        
+        cannon = this.add.image(70, 980, 'cannon');
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------
         BetweenPoints = Phaser.Math.Angle.BetweenPoints;
         DefinirAngulo = Phaser.Geom.Line.SetToAngle;
         velocidadeRotacao = this.physics.velocityFromRotation;
 // ----------------------------------------------------------------------------------------------------------------------------------------------
+      
         bala = this.physics.add.sprite(cannon.x, cannon.y, 'bala').setScale(2);
+        cano = this.add.image(60, 987, 'cano'); 
         bala.setCollideWorldBounds(true);
         this.cameras.main.startFollow(bala);
         this.physics.add.collider(bala, platforms);
@@ -73,7 +76,7 @@ mainScene.preload=function() {
         angle = Phaser.Math.DegToRad(valor); 
         DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
         velocidadeRotacao(angle, force, velocity);
-        gfx.clear().strokeLineShape(line);
+        // gfx.clear().strokeLineShape(line);
 
         
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,9 +134,11 @@ mainScene.preload=function() {
         forcaElastica.addListener('click');
         forcaElastica.on('click', function (event) {
                 if (event.target.name === 'play'){
-                    var valorK = this.getChildByName('valor');
-                    var valorX = this.getChildByName('valor1');
+                    valorK = this.getChildByName('valor');
+                    valorX = this.getChildByName('valor1');
+                    
                     force = (valorK.value * valorX.value);
+
                     iniciar=true;
                     console.log(force);
                     if (valorK.value !== '' && valorX.value !== ''){
@@ -158,7 +163,7 @@ mainScene.preload=function() {
                 ease: 'Power3'
             });
 
-            text = this.add.text(32, 32).setScrollFactor(0).setFontSize(32).setColor('#ffffff');
+            text = this.add.text(32, 70).setScrollFactor(0).setFontSize(32).setColor('#ffffff');
 
         }
        
@@ -168,7 +173,11 @@ mainScene.preload=function() {
    
 
         text.setText([
-            'Jogo:'
+            'Angulo:'+valor,
+            'Constante elástica:'+valorK.value,
+            'Deformação da mola:'+valorX.value,
+            'Força:'+force,
+
         ]);
 
 
@@ -177,8 +186,7 @@ mainScene.preload=function() {
             angle = Phaser.Math.DegToRad(-valor); 
             DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
             velocidadeRotacao(angle, force, velocity);
-            gfx.clear().strokeLineShape(line);
-            
+            // gfx.clear().strokeLineShape(line);
         }
         if (iniciar== true){
             this.input.on('pointerup', function () {
@@ -186,5 +194,6 @@ mainScene.preload=function() {
             bala.play('fly');
             }, this);
         }
+        console.log(reiniciar.x=bala.x-30);
     }
     
