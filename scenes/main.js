@@ -10,6 +10,7 @@ var mainScene = new Phaser.Scene('main');
     var bala;
     var gfx;
     var force = 0;
+    var text;
 
     var iniciar = false;
     // new Phaser.Game(config);
@@ -26,12 +27,12 @@ mainScene.preload=function() {
         this.load.html('buttonreset', 'assets/buttonreset.html');
         this.load.html('forcaElastica', 'assets/forcaElastica.html');
         this.load.image('backdrop', 'assets/back.png')
-        this.load.image('cannon', 'assets/cannon.png'); // canhão base
+        this.load.image('cannon', 'assets/cannon3.png'); // canhão base
         this.load.spritesheet('bala', 'assets/bala.png', { frameWidth: 16, frameHeight: 18 }); // 
         this.load.image('ground', 'assets/platform.png');
         // this.load.image('grass', 'assets/grass.png'); 
-        this.load.image('platform', 'assets/platform.png'); 
-        this.load.image('cano', 'assets/cano.png');
+        this.load.image('platform', 'assets/plataforma.png'); 
+        this.load.image('cano', 'assets/cano1.png');
         this.load.image('reiniciar', 'assets/reiniciar.png');
     }
 
@@ -44,9 +45,10 @@ mainScene.preload=function() {
         this.physics.world.setBounds(0, 0, 1920, 1080);
         this.add.image(0, 0, 'backdrop').setOrigin(0);
         this.add.image(1920, 0, 'backdrop').setOrigin(0).setFlipX(true);
-        platforms.create(960, 1070, 'platform').setScale(2).refreshBody();
-        reiniciar= this.add.image(1890,1060,"reiniciar").setInteractive();
-        cannon = this.add.image(70, 1008, 'cannon');
+        platforms.create(60, 1050, 'platform').setScale(2).refreshBody();
+        reiniciar= this.add.image(70,400,"reiniciar").setInteractive();
+        cano = this.add.image(60, 980   , 'cano');
+        cannon = this.add.image(70, 990, 'cannon');
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------
         BetweenPoints = Phaser.Math.Angle.BetweenPoints;
@@ -72,9 +74,14 @@ mainScene.preload=function() {
         DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
         velocidadeRotacao(angle, force, velocity);
         gfx.clear().strokeLineShape(line);
+
         
 // ----------------------------------------------------------------------------------------------------------------------------------------------
     //====================== TESTES DE APLICAÇÃO ====================
+      
+
+
+
         
         // bala.setGravityY(0);      // gravidade
         // bala.setGravityX(0);
@@ -151,12 +158,22 @@ mainScene.preload=function() {
                 ease: 'Power3'
             });
 
-
+            text = this.add.text(32, 32).setScrollFactor(0).setFontSize(32).setColor('#ffffff');
 
         }
+       
 
     mainScene.update=function() {
+
+   
+
+        text.setText([
+            'Jogo:'
+        ]);
+
+
         if (iniciarAng == true){
+            cano.rotation=Phaser.Math.DegToRad(-valor)
             angle = Phaser.Math.DegToRad(-valor); 
             DefinirAngulo(line, cannon.x, cannon.y, angle, 128);
             velocidadeRotacao(angle, force, velocity);
