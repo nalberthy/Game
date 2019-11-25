@@ -26,7 +26,7 @@ mainScene.preload=function() {
         this.load.html('angulo', 'assets/angulo.html');
         this.load.html('buttonreset', 'assets/buttonreset.html');
         this.load.html('forcaElastica', 'assets/forcaElastica.html');
-        this.load.image('backdrop', 'assets/back.jpg')
+        this.load.image('backdrop', 'assets/back.png')
         this.load.image('cannon', 'assets/cannon.png'); // canhão base
         this.load.spritesheet('bala', 'assets/bala.png', { frameWidth: 16, frameHeight: 18 }); // 
         this.load.image('ground', 'assets/platform.png');
