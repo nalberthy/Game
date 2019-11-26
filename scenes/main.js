@@ -17,6 +17,7 @@ var mainScene = new Phaser.Scene('main');
     // new Phaser.Game(config);
     var reiniciar;
     
+    var colidiu;
 
 /*https://phaser.io/examples/v3/view/camera/follow-user-controlled-sprite*/
 mainScene.init = function () {
@@ -68,6 +69,8 @@ mainScene.preload=function() {
         this.cameras.main.startFollow(bala);
         this.physics.add.collider(bala, platforms);
         this.physics.add.collider(bala, alvo);
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------
         gfx = this.add.graphics() 
         // gfx.setTexture('cano');
@@ -92,7 +95,7 @@ mainScene.preload=function() {
 
 
         
-        // bala.setGravityY(0);      // gravidade
+        // bala.setGravityY(-120);      // gravidade
         // bala.setGravityX(0);
        
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -177,7 +180,6 @@ mainScene.preload=function() {
     mainScene.update=function() {
 
         var cam = this.cameras.main;
-        console.log(cam.scrollX);
         text.setText([
             'Angulo:'+valor,
             'Constante elástica (K):'+valorK.value,
@@ -201,5 +203,11 @@ mainScene.preload=function() {
             }, this);
         }
         reiniciar.x=cam.scrollX+40;
+        reiniciar.y=cam.scrollY+40;
+        if(bala.body.touching.right&&bala.y>700&&bala.y<800){
+           console.log('bateu'); 
+        }
+
     }
     
+ 
